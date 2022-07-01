@@ -367,11 +367,13 @@ FROM order_ingredients
 ORDER BY order_id, pizza_id;
 
 -- 6. What is the total quantity of each ingredient used in all delivered pizzas sorted by most frequent first?
+DROP TABLE IF EXISTS total_ingredients;
 CREATE TEMPORARY TABLE total_ingredients
 SELECT c.order_id, c.pizza_id, p.topping, t.topping_name, c.exclusions
-FROM customer_orders_cleaned AS c INNER JOIN pizza_recipes_cleaned AS p ON c.pizza_id = p.pizza_id
-	INNER JOIN pizza_toppings AS t ON p.topping = t.topping_name
-WHERE cancellations = '';
+FROM customer_orders_cleaned AS c NATURAL JOIN runner_orders_cleaned
+	INNER JOIN pizza_recipes_cleaned AS p ON c.pizza_id = p.pizza_id
+	INNER JOIN pizza_toppings AS t ON p.topping = t.topping_id
+WHERE cancellation = '';
 
 DELETE FROM total_ingredients WHERE order_id = 4 AND pizza_id = 1 AND topping = 4;
 DELETE FROM total_ingredients WHERE order_id = 4 AND pizza_id = 2 AND topping = 4;
@@ -380,16 +382,16 @@ DELETE FROM total_ingredients WHERE order_id = 10 AND pizza_id = 1 AND topping =
 DELETE FROM total_ingredients WHERE order_id = 10 AND pizza_id = 1 AND topping = 6 AND exclusions = '2, 6';
 INSERT INTO total_ingredients
 VALUES
-	(5,1,1),
-    (7,2,1),
-    (9,1,1),
-    (9,1,5),
-    (10,1,1),
-    (10,1,4);
+	(5,1,1,'Bacon',NULL),
+    (7,2,1,'Bacon',NULL),
+    (9,1,1,'Bacon',NULL),
+    (9,1,5,'Chicken',NULL),
+    (10,1,1,'Chicken',NULL),
+    (10,1,4,'Cheese',NULL);
 
 SELECT topping, topping_name, COUNT(*) AS qty
 FROM total_ingredients
-GROUP BY topping
+GROUP BY topping, topping_name
 ORDER BY qty DESC;
 
 /* -------------------------------------------
@@ -438,16 +440,16 @@ SELECT customer_id,
 	   c.order_id, 
        runner_id, 
        rating, 
-       order_date, 
+       order_time, 
        pickup_time, 
        ROUND(MINUTE(TIMEDIFF(order_time, pickup_time)), 0) AS timediff_order_pickup, 
        duration, 
        ROUND(distance / (duration / 60), 2) AS avg_speed, 
        COUNT(pizza_id) AS total_pizza
-FROM customer_orders_cleaned AS c NATURAL JOIN runner_orders_id
+FROM customer_orders_cleaned AS c NATURAL JOIN runner_orders_cleaned
 	INNER JOIN ratings ON c.order_id = ratings.order_id
 WHERE cancellation = ''
-GROUP BY customer_id, c.order_id, runner_id, rating, order_date, pickup_time, duration
+GROUP BY customer_id, c.order_id, runner_id, rating, order_time, pickup_time, duration, avg_speed
 ORDER BY customer_id;
 
 -- 5. If a Meat Lovers pizza was $12 and Vegetarian $10 fixed prices with no cost for extras and each runner is paid $0.30 per kilometre traveled - how much money does Pizza Runner have left over after these deliveries?
