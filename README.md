@@ -10,7 +10,7 @@ This repository consists of my attempt at the [8 Week SQL Challenge](https://8we
 5. Case Study #5 - Data Mart - [schema](https://github.com/seenyanlee/8weeksqlchallenge/blob/main/8weeksqlchallenge_5_schema.sql) | [code](https://github.com/seenyanlee/8weeksqlchallenge/blob/main/8weeksqlchallenge_5_case.sql)
 6. Case Study #6 - Clique Bait - [schema](https://github.com/seenyanlee/8weeksqlchallenge/blob/main/8weeksqlchallenge_6_schema.sql) | [code](https://github.com/seenyanlee/8weeksqlchallenge/blob/main/8weeksqlchallenge_6_case.sql)
 7. Case Study #7 - Balanced Tree Clothing Co. - [schema](https://github.com/seenyanlee/8weeksqlchallenge/blob/main/8weeksqlchallenge_7_schema.sql) | [code](https://github.com/seenyanlee/8weeksqlchallenge/blob/main/8weeksqlchallenge_7_case.sql)
-
+8. Case Study #8 - Fresh Segments - [schema](https://github.com/seenyanlee/8weeksqlchallenge/blob/main/8weeksqlchallenge_8_schema.sql) | [code](https://github.com/seenyanlee/8weeksqlchallenge/blob/main/8weeksqlchallenge_8_case.sql)
 
 ### Useful online references
 1. [Solutions by Katie Huang](https://github.com/katiehuangx/8-Week-SQL-Challenge)
